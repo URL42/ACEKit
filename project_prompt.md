@@ -2,26 +2,25 @@
 
 You are a coding agent integrating the **ACEKit** self-learning framework into a project.
 
-## Your Responsibilities
+Your responsibilities:
 
-1. Instantiate `ACEManager` once for the project.
-2. Call `prompt_overlay()` at the start of each run.
-3. Log each tool call using `ActionRecord`.
-4. Maintain `action_records` and `errors_for_ace` lists.
-5. Define a project-specific `infer_goal()` function.
-6. Call `record_run()` at the end.
-7. Never log secrets or sensitive information.
+* Instantiate `ACEManager` once
+* Call `prompt_overlay()` at run start
+* Log actions with `ActionRecord`
+* Maintain `action_records` and `errors_for_ace`
+* Infer goal status
+* Call `record_run()` at the end
+* Avoid logging secrets
 
 ---
 
-## 1. Instantiate ACEManager
-
-Insert near the entrypoint of the agent:
+## 1. Instantiate ACEKit
 
 ```python
 from acekit import ACEManager, ActionRecord
 
 ACE_DOMAIN = "<project_domain>"
+
 ace_manager = ACEManager(
     playbook_path="./ace_playbook.json",
     guardrails_path="./guardrails_default.json",
@@ -31,22 +30,19 @@ ace_manager = ACEManager(
 
 ---
 
-## 2. Add overlay tips to prompts
-
-Before building your main LLM prompt:
+## 2. Overlay Tips
 
 ```python
 overlay_text, used_tip_ids = ace_manager.prompt_overlay(task, domain=ACE_DOMAIN)
-
 if overlay_text:
     messages.append({"role": "system", "content": overlay_text})
 ```
 
 ---
 
-## 3. Log tool actions
+## 3. Action Logging
 
-Whenever a tool is used:
+Whenever the agent uses a tool:
 
 ```python
 from time import monotonic
@@ -59,29 +55,29 @@ try:
     result = tool_call(...)
     action_records.append(ActionRecord(
         tool="tool_name",
-        args={...},
+        args={"key": "value"},
         result_type="ok",
         error_category="none",
-        message="tool_name succeeded",
-        latency_ms=int((monotonic() - start)*1000),
+        message="tool succeeded",
+        latency_ms=int((monotonic() - start)*1000)
     ).model_dump())
 except Exception as e:
     errors_for_ace.append(str(e))
     action_records.append(ActionRecord(
         tool="tool_name",
-        args={...},
+        args={"key": "value"},
         result_type="hard_fail",
         error_category="api_error",
         message=f"tool failed: {e}",
-        latency_ms=int((monotonic() - start)*1000),
+        latency_ms=int((monotonic() - start)*1000)
     ).model_dump())
 ```
 
 ---
 
-## 4. Infer goal quality
+## 4. Goal Inference
 
-Add a custom goal inference for the project:
+Create a custom goal inference:
 
 ```python
 def infer_goal(outcome, actions, errors):
@@ -93,17 +89,15 @@ def infer_goal(outcome, actions, errors):
 
 ---
 
-## 5. Record run
-
-At the end:
+## 5. Record Run
 
 ```python
 ace_manager.record_run(
     task=task,
-    outcome=final_output or "",
+    outcome=final_output,
     actions=action_records,
     errors=errors_for_ace,
-    preferences=user_preferences or [],
+    preferences=user_preferences,
     goal_status=goal_status,
     reason_for_status=reason,
     answer_relevance_score=relevance,
@@ -114,12 +108,28 @@ ace_manager.record_run(
 
 ---
 
-## 6. Safety Rules
+## 6. Use the Included Examples
 
-* Do not store raw secrets in any `ActionRecord` field.
-* Use sanitized summaries in `args`.
-* Do not modify the ACEKit library internals.
+ACEKit includes:
+
+* `examples/minimal_agent/ace_runner.py` — simplest runnable demo
+* `examples/minimal_agent/playbook_template.json` — starter empty playbook
+
+These demonstrate:
+
+* Correct ACEKit integration
+* Domain usage
+* Logging actions
+* Recording runs
+
+Coding agents should reference these examples when creating integrations.
 
 ---
 
-This is the complete guide for coding agents to integrate ACEKit into any project.
+## Safety
+
+* Never log secrets or sensitive data.
+* Do not modify ACEKit internals.
+* Use sanitized summaries for logged `args`.
+
+---
