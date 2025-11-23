@@ -1,5 +1,3 @@
-# project_prompt.md
-
 # ACEKit Integration Prompt (for Coding Agents)
 
 You are a coding agent integrating the **ACEKit** self-learning framework into a project.
