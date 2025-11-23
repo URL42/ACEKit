@@ -1,0 +1,11 @@
+{
+"never_store_terms": [
+"password",
+"token",
+"secret",
+"cookie",
+"session",
+"apikey",
+"api_key"
+]
+}
