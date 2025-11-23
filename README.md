@@ -2,19 +2,14 @@
 
 **ACEKit** is a small, ACE-style “self-learning” agentic framework you can plug into any agent-driven project:
 
-* browser agents (Playwright, Selenium, HTTP fetchers)
-* email drafting agents
-* financial analyst / report agents
-* CLI / batch tools, etc.
-
-**See the original Agentic Context Engineering paper here: https://arxiv.org/html/2510.04618v1
-
-
 * Browser agents (Playwright, Selenium, HTTP fetchers)
 * Email drafting agents
 * Financial analyst / report agents
 * Automation/n8n agents
 * Any agent that uses tools or performs multi-step reasoning
+
+**See the original Agentic Context Engineering paper here: https://arxiv.org/html/2510.04618v1
+
 
 ---
 
