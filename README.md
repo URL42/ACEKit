@@ -9,6 +9,9 @@
 * financial analyst / report agents
 * CLI / batch tools, etc.
 
+**See the original paper here: https://arxiv.org/html/2510.04618v1
+
+
 ACEKit does three things:
 
 1. **Logs structured telemetry** about each run (task, actions, errors, outcome).
