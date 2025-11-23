@@ -2,14 +2,14 @@
 
 # ACEKit
 
-**ACEKit** is a small, generic, ACE-style “self-learning” framework you can plug into any agent-style project:
+**ACEKit** is a small, ACE-style “self-learning” agentic framework you can plug into any agent-driven project:
 
 * browser agents (Playwright, Selenium, HTTP fetchers)
 * email drafting agents
 * financial analyst / report agents
 * CLI / batch tools, etc.
 
-**See the original paper here: https://arxiv.org/html/2510.04618v1
+**See the original Agentic Context Engineering paper here: https://arxiv.org/html/2510.04618v1
 
 
 ACEKit does three things:
